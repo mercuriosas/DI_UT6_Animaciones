@@ -161,6 +161,7 @@ enum class ComponentTye() {
 
 @Composable
 fun cardAnimation() {
+    val elevacion = 0f
     val value by rememberInfiniteTransition(label = "").animateFloat(
         initialValue = 1f,
         targetValue = 20f,
@@ -168,18 +169,18 @@ fun cardAnimation() {
             animation = tween(
                 durationMillis = 3000
             ),
-            repeatMode = RepeatMode.Restart
+            repeatMode = RepeatMode.Reverse
         ), label = "Floating Card"
     )
     Column() {
         Row() {
-            ElevatedCard(
+            Card(
                 elevation = CardDefaults.cardElevation(
                     defaultElevation = value.dp
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(16.dp).clickable {  }
             ) {
                 Column(Modifier.padding(5.dp)) {
                     Text(text = "$value")
