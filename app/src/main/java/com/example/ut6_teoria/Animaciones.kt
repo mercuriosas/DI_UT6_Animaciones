@@ -338,25 +338,56 @@ fun circleAnimation() {
 
 @Composable
 fun DraggableTextLowLevel() {
-    Box(modifier = Modifier.fillMaxSize()) {
-        var offsetX by remember { mutableStateOf(0f) }
-        var offsetY by remember { mutableStateOf(0f) }
+    /*Box(modifier = Modifier.fillMaxSize()) {*/
+    var offsetX by remember { mutableStateOf(0f) }
+    var offsetY by remember { mutableStateOf(0f) }
 
 
-        Box(
-            Modifier
-                .offset { IntOffset(offsetX.roundToInt(), offsetY.roundToInt()) }
-                .background(Color.Blue)
-                .size(50.dp)
-                .pointerInput(Unit) {
-                    detectDragGestures(onDragEnd = {}) { change, dragAmount ->
-                        change.consume()
-                        offsetX += dragAmount.x
-                        offsetY += dragAmount.y
-                    }
+    Box(
+        Modifier
+            .offset { IntOffset(offsetX.roundToInt(), offsetY.roundToInt()) }
+            .background(Color.Blue)
+            .size(50.dp)
+            .pointerInput(Unit) {
+                detectDragGestures(onDragEnd = {}) { change, dragAmount ->
+                    change.consume()
+                    offsetX += dragAmount.x
+                    offsetY += dragAmount.y
                 }
-        ){
+            }
+    ) {
 
-        }
     }
+    //}
+}
+
+@Composable
+fun DraggableCard() {
+    var offsetX by remember { mutableStateOf(0f) }
+    var offsetY by remember { mutableStateOf(0f) }
+
+    ElevatedCard(
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 5.dp
+        ),
+        modifier = Modifier
+            .offset { IntOffset(offsetX.roundToInt(), offsetY.roundToInt()) }
+            .fillMaxWidth()
+            .padding(16.dp)
+            .pointerInput(Unit) {
+                detectDragGestures(onDragEnd = {}) { change, dragAmount ->
+                    change.consume()
+                    offsetX += dragAmount.x
+                    offsetY += dragAmount.y
+                }
+            }
+    ) {
+        Text(
+            text = "Diseño de interfaces 2023",
+            modifier = Modifier
+                .padding(16.dp),
+            textAlign = TextAlign.Center,
+        )
+    }
+
 }

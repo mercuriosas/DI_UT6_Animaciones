@@ -34,8 +34,12 @@ class MainActivity : ComponentActivity() {
                         cardAnimation()
                         Spacer(modifier = Modifier.size(5.dp))
                         ElevatedCardExample()
+                        Spacer(modifier = Modifier.size(5.dp))
                         circleAnimation()
+                        Spacer(modifier = Modifier.size(5.dp))
                         DraggableTextLowLevel()
+                        Spacer(modifier = Modifier.size(5.dp))
+                        DraggableCard()
                         //InfinitelyPulsingHeart()
                     }
                     //Greeting("Android")
