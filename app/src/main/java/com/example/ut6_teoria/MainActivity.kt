@@ -27,10 +27,16 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     Column {
-                        ColorAnimationSimple()
-                        Spacer(modifier = Modifier.size(10.dp))
-                        sizeAnimation()
-                        visibilityAnimation()
+                        //ColorAnimationSimple()
+                        //Spacer(modifier = Modifier.size(10.dp))
+                        //sizeAnimation()
+                        //visibilityAnimation()
+                        cardAnimation()
+                        Spacer(modifier = Modifier.size(5.dp))
+                        ElevatedCardExample()
+                        circleAnimation()
+                        DraggableTextLowLevel()
+                        //InfinitelyPulsingHeart()
                     }
                     //Greeting("Android")
 
