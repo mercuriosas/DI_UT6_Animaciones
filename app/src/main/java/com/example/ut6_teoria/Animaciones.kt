@@ -161,6 +161,7 @@ enum class ComponentTye() {
 
 @Composable
 fun cardAnimation() {
+    val elevacion = 0f
     val value by rememberInfiniteTransition(label = "").animateFloat(
         initialValue = 1f,
         targetValue = 20f,
@@ -168,18 +169,18 @@ fun cardAnimation() {
             animation = tween(
                 durationMillis = 3000
             ),
-            repeatMode = RepeatMode.Restart
+            repeatMode = RepeatMode.Reverse
         ), label = "Floating Card"
     )
     Column() {
         Row() {
-            ElevatedCard(
+            Card(
                 elevation = CardDefaults.cardElevation(
                     defaultElevation = value.dp
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(16.dp).clickable {  }
             ) {
                 Column(Modifier.padding(5.dp)) {
                     Text(text = "$value")
@@ -338,25 +339,56 @@ fun circleAnimation() {
 
 @Composable
 fun DraggableTextLowLevel() {
-    Box(modifier = Modifier.fillMaxSize()) {
-        var offsetX by remember { mutableStateOf(0f) }
-        var offsetY by remember { mutableStateOf(0f) }
+    /*Box(modifier = Modifier.fillMaxSize()) {*/
+    var offsetX by remember { mutableStateOf(0f) }
+    var offsetY by remember { mutableStateOf(0f) }
 
 
-        Box(
-            Modifier
-                .offset { IntOffset(offsetX.roundToInt(), offsetY.roundToInt()) }
-                .background(Color.Blue)
-                .size(50.dp)
-                .pointerInput(Unit) {
-                    detectDragGestures(onDragEnd = {}) { change, dragAmount ->
-                        change.consume()
-                        offsetX += dragAmount.x
-                        offsetY += dragAmount.y
-                    }
+    Box(
+        Modifier
+            .offset { IntOffset(offsetX.roundToInt(), offsetY.roundToInt()) }
+            .background(Color.Blue)
+            .size(50.dp)
+            .pointerInput(Unit) {
+                detectDragGestures(onDragEnd = {}) { change, dragAmount ->
+                    change.consume()
+                    offsetX += dragAmount.x
+                    offsetY += dragAmount.y
                 }
-        ){
+            }
+    ) {
 
-        }
     }
+    //}
+}
+
+@Composable
+fun DraggableCard() {
+    var offsetX by remember { mutableStateOf(0f) }
+    var offsetY by remember { mutableStateOf(0f) }
+
+    ElevatedCard(
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 5.dp
+        ),
+        modifier = Modifier
+            .offset { IntOffset(offsetX.roundToInt(), offsetY.roundToInt()) }
+            .fillMaxWidth()
+            .padding(16.dp)
+            .pointerInput(Unit) {
+                detectDragGestures(onDragEnd = {}) { change, dragAmount ->
+                    change.consume()
+                    offsetX += dragAmount.x
+                    offsetY += dragAmount.y
+                }
+            }
+    ) {
+        Text(
+            text = "Diseño de interfaces 2023",
+            modifier = Modifier
+                .padding(16.dp),
+            textAlign = TextAlign.Center,
+        )
+    }
+
 }
