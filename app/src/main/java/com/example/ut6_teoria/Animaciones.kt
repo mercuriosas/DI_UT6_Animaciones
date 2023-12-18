@@ -1,7 +1,10 @@
 package com.example.ut6_teoria
 
 import android.util.Half.toFloat
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
@@ -11,11 +14,17 @@ import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.animateValue
 import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.with
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -29,6 +38,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.Notifications
@@ -36,7 +46,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.*
@@ -55,6 +68,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
@@ -180,7 +194,8 @@ fun cardAnimation() {
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp).clickable {  }
+                    .padding(16.dp)
+                    .clickable { }
             ) {
                 Column(Modifier.padding(5.dp)) {
                     Text(text = "$value")
@@ -390,5 +405,95 @@ fun DraggableCard() {
             textAlign = TextAlign.Center,
         )
     }
+}
 
+@OptIn(ExperimentalAnimationApi::class)
+@Composable
+fun contentAnimation() {
+    Row {
+        var count by remember { mutableStateOf(0) }
+        Button(onClick = { count++ }) {
+            Text("Add")
+        }
+        AnimatedContent(targetState = count, label = "") { targetCount ->
+            // Make sure to use `targetCount`, not `count`.
+            Text(text = "Count: $targetCount")
+        }
+        Text(text = "Count: ")
+        AnimatedContent(
+            targetState = count,
+            transitionSpec = {
+                // Compare the incoming number with the previous number.
+                if (targetState > initialState) {
+                    // If the target number is larger, it slides up and fades in
+                    // while the initial (smaller) number slides up and fades out.
+                    slideInVertically { height -> height } + fadeIn() with
+                            slideOutVertically { height -> -height } + fadeOut()
+                } else {
+                    // If the target number is smaller, it slides down and fades in
+                    // while the initial number slides down and fades out.
+                    slideInVertically { height -> -height } + fadeIn() with
+                            slideOutVertically { height -> height } + fadeOut()
+                }.using(
+                    // Disable clipping since the faded slide-in/out should
+                    // be displayed out of bounds.
+                    SizeTransform(clip = false)
+                )
+            }, label = ""
+        ) { targetCount ->
+            Text(text = "$targetCount")
+        }
+    }
+}
+
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterial3Api::class)
+@Composable
+fun advanceContentAnimation() {
+    var expanded by remember { mutableStateOf(false) }
+    Surface(
+        modifier = Modifier.padding(2.dp),
+        color = MaterialTheme.colorScheme.primary,
+        onClick = { expanded = !expanded }
+    ) {
+        AnimatedContent(
+            targetState = expanded,
+            transitionSpec = {
+                fadeIn(animationSpec = tween(150, 150)) with
+                        fadeOut(animationSpec = tween(150)) using
+                        SizeTransform { initialSize, targetSize ->
+                            if (targetState) {
+                                keyframes {
+                                    // Expand horizontally first.
+                                    IntSize(targetSize.width, initialSize.height) at 150
+                                    durationMillis = 300
+                                }
+                            } else {
+                                keyframes {
+                                    // Shrink vertically first.
+                                    IntSize(initialSize.width, targetSize.height) at 150
+                                    durationMillis = 300
+                                }
+                            }
+                        }
+            }, label = ""
+        ) { targetExpanded ->
+            if (targetExpanded) {
+                Text(text = "Lorem ipsum dolor sit amet consectetur adipiscing elit morbi, ut donec lacus montes vulputate conubia ridiculus. Natoque purus taciti laoreet erat ad sodales nisi nisl curabitur, class id nascetur ligula ultrices dis penatibus aenean, venenatis vehicula massa lacinia primis conubia eu volutpat. Et convallis velit suscipit aliquam feugiat nisl magnis facilisi cubilia quam conubia, ligula praesent tristique est dapibus nisi gravida eleifend duis.")
+
+            } else {
+                Icon(imageVector = Icons.Default.Call, contentDescription = "Llamada")
+            }
+        }
+    }
+}
+
+@Composable
+fun gradient(){
+    val brush = Brush.horizontalGradient(listOf(Color.Red, Color.Blue))
+    Canvas(
+        modifier = Modifier.size(200.dp),
+        onDraw = {
+            drawCircle(brush)
+        }
+    )
 }

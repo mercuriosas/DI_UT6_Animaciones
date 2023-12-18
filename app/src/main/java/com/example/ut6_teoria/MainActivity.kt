@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -26,7 +27,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Column {
+                    Column ( Modifier.padding(5.dp)) {
                         //ColorAnimationSimple()
                         //Spacer(modifier = Modifier.size(10.dp))
                         //sizeAnimation()
@@ -40,6 +41,10 @@ class MainActivity : ComponentActivity() {
                         DraggableTextLowLevel()
                         Spacer(modifier = Modifier.size(5.dp))
                         DraggableCard()
+                        Spacer(Modifier.size(5.dp))
+                        contentAnimation()
+                        Spacer(modifier = Modifier.size(5.dp))
+                        advanceContentAnimation()
                         //InfinitelyPulsingHeart()
                     }
                     //Greeting("Android")
