@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
                         //Spacer(modifier = Modifier.size(10.dp))
                         //sizeAnimation()
                         //visibilityAnimation()
-                        cardAnimation()
+                       /* cardAnimation()
                         Spacer(modifier = Modifier.size(5.dp))
                         ElevatedCardExample()
                         Spacer(modifier = Modifier.size(5.dp))
@@ -46,6 +46,16 @@ class MainActivity : ComponentActivity() {
                         Spacer(modifier = Modifier.size(5.dp))
                         advanceContentAnimation()
                         //InfinitelyPulsingHeart()
+                        */
+                        dibujoRect()
+                        Spacer(modifier = Modifier.size(5.dp))
+                        dibujoRectRound()
+                        Spacer(modifier = Modifier.size(5.dp))
+                        dibujoCirc()
+                        Spacer(modifier = Modifier.size(5.dp))
+                        dibujoCircStr()
+                        Spacer(modifier = Modifier.size(5.dp))
+                        positionDraw()
                     }
                     //Greeting("Android")
 
