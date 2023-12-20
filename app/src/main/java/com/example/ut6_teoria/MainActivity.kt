@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
                         Spacer(modifier = Modifier.size(5.dp))
                         advanceContentAnimation()
                         //InfinitelyPulsingHeart()
-                        */
+
                         dibujoRect()
                         Spacer(modifier = Modifier.size(5.dp))
                         dibujoRectRound()
@@ -55,7 +55,8 @@ class MainActivity : ComponentActivity() {
                         Spacer(modifier = Modifier.size(5.dp))
                         dibujoCircStr()
                         Spacer(modifier = Modifier.size(5.dp))
-                        positionDraw()
+                        positionDraw()*/
+                        crossFadeExample()
                     }
                     //Greeting("Android")
 

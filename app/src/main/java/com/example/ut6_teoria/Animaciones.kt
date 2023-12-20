@@ -3,6 +3,7 @@ package com.example.ut6_teoria
 import android.util.Half.toFloat
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.SizeTransform
 import androidx.compose.animation.animateColor
@@ -72,6 +73,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
+import kotlin.random.Random.Default.nextInt
 
 @Composable
 fun ColorAnimationSimple() {
@@ -155,15 +157,20 @@ fun crossFadeExample() {
     }
 
     Column(Modifier.fillMaxSize()) {
-        Button(onClick = { /*TODO*/ }) {
+        Button(onClick = { myComponent= getComponentTypeRandon()}) {
             Text(text = "Cambiar componente")
         }
-        when (myComponent) {
-            ComponentTye.Image -> Icon(Icons.Default.Edit, contentDescription = null)
-            ComponentTye.Text -> Text(text = "Texto")
-            ComponentTye.Box -> Box(modifier = Modifier.size(10.dp))
-            ComponentTye.Error -> TODO()
+        Crossfade(targetState = myComponent, label = "Crossfade") { myComponent->
+            when (myComponent) {
+                ComponentTye.Image -> Icon(Icons.Default.Edit, contentDescription = null)
+                ComponentTye.Text -> Text(text = "Texto")
+                ComponentTye.Box -> Box(modifier = Modifier
+                    .size(150.dp)
+                    .background(Color.Red))
+                ComponentTye.Error -> Text(text = "Error")
+            }
         }
+
     }
 
 }
@@ -172,6 +179,14 @@ enum class ComponentTye() {
     Image, Text, Box, Error
 }
 
+fun getComponentTypeRandon(): ComponentTye {
+   return when (nextInt(from = 0, until = 3)) {
+        0 -> ComponentTye.Image
+        1 -> ComponentTye.Text
+        2 -> ComponentTye.Box
+        else -> ComponentTye.Error
+    }
+}
 
 @Composable
 fun cardAnimation() {
@@ -488,7 +503,7 @@ fun advanceContentAnimation() {
 }
 
 @Composable
-fun gradient(){
+fun gradient() {
     val brush = Brush.horizontalGradient(listOf(Color.Red, Color.Blue))
     Canvas(
         modifier = Modifier.size(200.dp),
